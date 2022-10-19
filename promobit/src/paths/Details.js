@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { GetDetail, GetRecomendations } from '../endpoints/Endpoint'
+import { GetActors, GetDetail, GetRecomendations } from '../endpoints/Endpoint'
 import { goHome } from '../routes/Coodinator'
 
 export default function Details() {
@@ -9,6 +9,7 @@ export default function Details() {
     const params = useParams()
     const [ detail, setDetail ] = useState(undefined)
     const [ rec, setRec ] = useState(undefined)
+    const [ actor, setActor ] = useState(undefined)
 
     useEffect (() => {
       const details = async () => { const result = await GetDetail(params.id)
@@ -19,16 +20,26 @@ export default function Details() {
         console.log(res)
         setRec(res.results)
       }
+      const actors = async () => { const rest = await GetActors(params.id)
+        console.log(rest)
+        setActor(rest.cast)
+      }
       details()
       recomendations()
+      actors()
     }, [])
+    const showActors = actor?.map((actor) => {
+      return <div>
+        <div><img src={`${img_Url}${actor.profile_path}`}/>
+        <p>{actor.name}</p>
+        <p>{actor.character}</p></div>
+      </div>
+    })
     const showRec = rec?.map((item) => {
       return <div key= {item.id}>
-        <div>
-          <img src={`${img_Url }${item.poster_path}`} />
-          <p>{item.title}</p>
-          <p>{item.release_date}</p>
-        </div>
+        <div> <img src={`${img_Url }${item.poster_path}`}/>
+          <p>{item.title}</p> 
+          <p>{item.release_date}</p> </div>
       </div>
     })
     const showDetail = detail !== undefined && <div>
@@ -48,7 +59,7 @@ export default function Details() {
         </div>
         <div>
           <p>Elenco original</p>
-          <div>Adicionar Imagens do cast</div>
+          <div>{showActors}</div>
         </div>
         <div>Trailer</div>
         <div>
