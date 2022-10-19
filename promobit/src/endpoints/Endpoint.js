@@ -26,3 +26,10 @@ export const GetGenre = async () => {
         console.log(res)
     } catch (err) {alert("We hope this won't show up!")}
 }
+export const GetRecomendations = async (id) => {
+    try { const res = await axios
+        .get(`${base_URL}/movie/${id}/recommendations?api_key=${KEY}&language=en-US&page=1`)
+        return res.data
+        console.log(res)
+    } catch (err) {alert("We hope this won't show up!")}
+}
