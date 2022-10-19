@@ -33,3 +33,9 @@ export const GetRecomendations = async (id) => {
         console.log(res)
     } catch (err) {alert("We hope this won't show up!")}
 }
+export const GetActors = async (id) => {
+    try { const res = await axios
+        .get(`${base_URL}/movie/${id}/credits?api_key=${KEY}&language=en-US`)
+        return res.data
+    } catch (err) {alert("We hope this won't show up!")}
+}

@@ -17,7 +17,7 @@ export default function Home() {
       const showMovies = movie?.map((movie) => {
         return <div key={movie.id}>
             <div onClick={() => goDetail(navigate, movie.id)}>
-              <img src={`${img_Url }${movie.backdrop_path}`}/></div>
+              <img src={`${img_Url }${movie.poster_path}`}/></div>
             <div>
               <p>{movie.original_title}</p>
               <p>{movie.release_date}</p>
