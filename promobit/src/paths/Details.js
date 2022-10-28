@@ -1,77 +1,129 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { GetActors, GetDetail, GetRecomendations } from '../endpoints/Endpoint'
-import { goHome } from '../routes/Coodinator'
+import { useParams } from 'react-router-dom'
+import Header from '../asstes/Header'
+import { GetActors, GetDetail, GetRecomendations, GetAge, GetTrailer } from '../endpoints/Endpoint'
+import { SinopseBox, Img, MainBox, ShowCrews, CrewBox, SVG, Circle, PercentVote, VoteBox, StarsText, CrewJob, P, CrewName, DivBox, Iframe, SinopBox, PSinopse, MovieName, PInfo, PRec,  Div, RecBox, RecImg, ActImg, ActBox, ShowAct, PTitle } from '../style/DetailStyle'
 
 export default function Details() {
   const img_Url = "https://image.tmdb.org/t/p/original"
-    const navigate = useNavigate()
     const params = useParams()
     const [ detail, setDetail ] = useState(undefined)
     const [ rec, setRec ] = useState(undefined)
     const [ actor, setActor ] = useState(undefined)
+    const [ age, setAge ] = useState(undefined)
+    const [ trailer, setTrailer ] = useState(undefined)
+    const [ crew, setCrew ] = useState(undefined)
 
     useEffect (() => {
       const details = async () => { const result = await GetDetail(params.id)
-        console.log(result)
         setDetail(result)
       }
       const recomendations = async () => { const res = await GetRecomendations(params.id)
-        console.log(res)
         setRec(res.results)
       }
       const actors = async () => { const rest = await GetActors(params.id)
-        console.log(rest)
+        const team = ["director", "characters", "screenplay"]
+        const teamMembers = rest.crew?.filter((crew) => {
+          return team.indexOf(crew.job.toLowerCase()) >= 0
+        })
+        setCrew(teamMembers)
         setActor(rest.cast)
+      }
+      const getAge = async () => { const res = await GetAge(params.id)
+        const restrict = res.results?.filter((item) => {
+          return item.iso_3166_1 === "BR"
+        })
+        console.log(restrict[0].release_dates[0].certification)
+        if ( restrict.length === 0 ) {
+          setAge("Inválido") 
+        } else {
+          if ( restrict[0].release_dates[0].certification ) {
+          setAge(`${restrict[0].release_dates[0].certification} anos`) 
+          } else {
+          setAge("Livre") 
+          }
+        }
+      }
+      const getTrailer = async () => { const res = await GetTrailer(params.id)
+        setTrailer(res)
       }
       details()
       recomendations()
       actors()
+      getAge()
+      getTrailer()
     }, [])
+    const showTrailer =  <Iframe width="560" height="315"
+    src={`https://www.youtube.com/embed/${trailer?.results[0].key}`}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen /> 
+    const showCrew = crew?.map((crew) => {
+      return <CrewBox>
+              <CrewName>{crew.name}</CrewName>
+              <CrewJob>{crew.job}</CrewJob>
+             </CrewBox>
+    })
+    const percent = ( detail?.vote_average * 10 ).toFixed(0)
     const showActors = actor?.map((actor) => {
-      return <div>
-        <div><img src={`${img_Url}${actor.profile_path}`}/>
-        <p>{actor.name}</p>
-        <p>{actor.character}</p></div>
-      </div>
+      return <ActBox key={actor.id}>
+        <ActImg src={`${img_Url}${actor.profile_path}`}/>
+        <PTitle>{actor.name}</PTitle>
+        <P>{actor.character}</P>
+      </ActBox>
     })
     const showRec = rec?.map((item) => {
       return <div key= {item.id}>
-        <div> <img src={`${img_Url }${item.poster_path}`}/>
-          <p>{item.title}</p> 
+        <div> <RecImg src={`${img_Url }${item.poster_path}`}/>
+          <PTitle>{item.title}</PTitle> 
           <p>{item.release_date}</p> </div>
       </div>
     })
-    const showDetail = detail !== undefined && <div>
-    <div>
-      <div><img src={`${img_Url}${detail.poster_path}`}/></div>
-      <div><p>{detail.original_title}</p></div>
+    const genre = detail?.genres?.map((genre) => {
+      return genre.name
+    }).join(", ")
+    const showDetail = detail !== undefined && <MainBox>
+    <SinopseBox>
+      <div><Img src={`${img_Url}${detail.poster_path}`}/></div>
+      <Div>   
+        <div><MovieName >{detail.original_title}</MovieName ></div>
       <div>
-        <p>Idade</p>
-        <p>{detail.release_date}</p>
-        <p>{detail.genre}</p>
-        <p>{detail.runtime}</p>
+        <PInfo> {age} • {detail.release_date} • {genre} • {detail.runtime}m. </PInfo>
       </div>
-      <div>{detail.vote_average}</div>
-      <div>
-        <p>Sinopse</p>
+      <VoteBox>
+      <PercentVote>
+           <SVG> <Circle r="29" cx="30" cy="30" progress={ percent * 2 }/> </SVG> 
+        { `${percent}%` } 
+      </PercentVote>
+        <StarsText>Avalização dos usuários</StarsText>
+      </VoteBox>
+      <SinopBox>
+        <PSinopse>Sinopse</PSinopse>
         <p>{detail.overview}</p>
+        </SinopBox>
+        <ShowCrews>
+            { showCrew }
+        </ShowCrews>
+        </Div>
+    </SinopseBox>
+    <DivBox>
+          <PRec>Elenco original</PRec>
+          <ShowAct>{showActors}</ShowAct>
+    </DivBox>
+        <div>
+          <PRec>Trailer</PRec>
+          { showTrailer }
         </div>
         <div>
-          <p>Elenco original</p>
-          <div>{showActors}</div>
+          <PRec>Recomendações </PRec>
+          <RecBox>{showRec}</RecBox>
         </div>
-        <div>Trailer</div>
-        <div>
-          <p>Recomendações </p>
-          {showRec}
-        </div>
-    </div>
-       </div>
+       </MainBox>
   return (
     <div>
-        <h1>This is the Detail</h1>
-        <button onClick={() => goHome(navigate)}>Now lets try going back</button>
+        <Header/>
+       
 
        {  showDetail }
     </div>
