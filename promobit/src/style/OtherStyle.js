@@ -15,7 +15,7 @@ export const SearchBox = styled.div`
 background-color: #2D0C5E;
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 width: 100%;
-height: 449px;
+min-height: 449px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -28,8 +28,7 @@ font-size: 46px;
 line-height: 56px;
 color: #FFFFFF;
 align-items: center;
-margin-left: 300px;
-margin-right: 300px;
+margin: 0 auto;
 align-content: center;
 text-align: center;
 
@@ -42,8 +41,7 @@ line-height: 20px;
 color: #FFFFFF;
 `
 export const ButtonBox = styled.div`
-margin-left: 202px;
-margin-right: 202px;
+margin: 0 auto;
 background-color: #2D0C5E;
 border: none;
 text-align: center;

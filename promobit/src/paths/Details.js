@@ -33,7 +33,6 @@ export default function Details() {
         const restrict = res.results?.filter((item) => {
           return item.iso_3166_1 === "BR"
         })
-        console.log(restrict[0].release_dates[0].certification)
         if ( restrict.length === 0 ) {
           setAge("Inválido") 
         } else {
@@ -53,14 +52,14 @@ export default function Details() {
       getAge()
       getTrailer()
     }, [])
-    const showTrailer =  <Iframe width="560" height="315"
+    const showTrailer =  trailer?.results.length > 0 && <Iframe width="560" height="315"
     src={`https://www.youtube.com/embed/${trailer?.results[0].key}`}
     title="YouTube video player"
     frameBorder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowFullScreen /> 
-    const showCrew = crew?.map((crew) => {
-      return <CrewBox>
+    const showCrew = crew?.map((crew, index) => {
+      return <CrewBox key={index}>
               <CrewName>{crew.name}</CrewName>
               <CrewJob>{crew.job}</CrewJob>
              </CrewBox>
@@ -85,7 +84,7 @@ export default function Details() {
     }).join(", ")
     const showDetail = detail !== undefined && <MainBox>
     <SinopseBox>
-      <div><Img src={`${img_Url}${detail.poster_path}`}/></div>
+      { detail?.poster_path && <Img src={`${img_Url}${detail.poster_path}`}/> }
       <Div>   
         <div><MovieName >{detail.original_title}</MovieName ></div>
       <div>
@@ -101,7 +100,7 @@ export default function Details() {
       <SinopBox>
         <PSinopse>Sinopse</PSinopse>
         <p>{detail.overview}</p>
-        </SinopBox>
+      </SinopBox>
         <ShowCrews>
             { showCrew }
         </ShowCrews>

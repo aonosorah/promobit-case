@@ -27,7 +27,6 @@ export default function HeaderSearch({setSearch, search}) {
                   {item.name}
                 </Button>
     })
-console.log(search)
   return (
     <SearchBox>
         <H1>Milhões de filmes, séries e pessoas para descobrir. Explore já.</H1>

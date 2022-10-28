@@ -4,6 +4,11 @@ export const SinopseBox = styled.div`
 background-color: #2D0C5E;
 height: 600px;
 display: flex;
+@media screen and (max-width: 980px) {
+  flex-direction: column;
+  height: max-content;
+  padding-bottom: 20px
+}
 `
 export const Img = styled.img`
 height: 574px;
@@ -11,6 +16,12 @@ width: 383px;
 margin-left: 112px;
 margin-top: 72px;
 border-radius: 8px;
+@media screen and (max-width: 980px) {
+  height: 279px;
+  width: 186px;
+  margin: 0 auto;
+  margin-top: 34px;
+}
 `
 export const Div = styled.div`
 display: flex;
@@ -38,14 +49,13 @@ flex-direction: column;
 padding: 8px;
 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 border-radius: 4px;
-line-height: 1px;
 `
 export const ShowAct = styled.div`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 display: flex;
 flex-direction: row;
-height: 350px;
-width: 1200px;
+/* height: 350px; */
+max-width: 100%;
 gap: 24px;
 padding-bottom: 26px;
 margin-left: 112px;
@@ -62,6 +72,10 @@ overflow: auto;
     background: #ADADAD;  
     border-radius: 10px;}
 ::-webkit-scrollbar-thumb:hover { background: #555; }
+@media screen and (max-width: 980px) {
+  margin: 0 auto;
+  padding: 10px;
+}
 `
 export const PTitle = styled.p`
 font-weight: 600;
@@ -72,6 +86,7 @@ font-weight: 400;
 font-size: 16px;
 color: #131313;
 line-height: 24px;
+margin: 0;
 `
 export const RecBox = styled(ShowAct)`
 gap: 32px;
@@ -84,6 +99,10 @@ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubun
 font-weight: 700;
 font-size: 28px;
 margin-left: 112px;
+@media screen and (max-width: 980px) {
+  margin: 0 auto;
+  padding: 10px;
+}
 `
 export const MovieName = styled.p`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -114,7 +133,8 @@ color: #FFFFFF;
 `
 export const SinopBox = styled.div`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-width: 696px;
+max-width: 696px;
+width: 90%;
 color: #DDDDDD;
 font-weight: 400;
 font-size: 16px;
@@ -124,15 +144,20 @@ export const DivBox = styled.div`
 margin-top: 28px;
 `
 export const Iframe = styled.iframe`
-width: 907px;
-height: 510px;
+max-width: 907px;
+width: 90vw;
+height: 50vw;
+max-height: 510px;
 margin-left: 112px;
+@media screen and (max-width: 980px) {
+  margin: 0 auto;
+  padding: 10px;
+}
 `
 export const CrewBox = styled.div`
 display: flex;
 flex-direction: column;
 width: 174px;
-height: 24px;
 `
 export const CrewName = styled.p`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -141,6 +166,7 @@ font-weight: 700;
 font-size: 16px;
 line-height: 24px;
 color: #FFFFFF; 
+margin: 0;
 `
 export const CrewJob = styled.p`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -149,7 +175,8 @@ font-weight: 400;
 font-size: 14px;
 line-height: 20px;
 color: #FFFFFF;
-margin-top: -10px;
+margin: 0;
+
 `
 export const StarsText = styled.p`
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -200,4 +227,8 @@ export const ShowCrews = styled.div`
 display: flex;
 flex-wrap: wrap;
 gap: 33px;
+height: max-content;
+@media screen and (max-width: 980px) {
+ gap: 15px;
+}
 `
